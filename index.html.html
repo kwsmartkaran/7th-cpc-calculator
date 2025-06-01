@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>7th CPC Calculator - बहुभाषी</title>
+    <style>
+        :root {
+            --primary: #2c3e50;
+            --secondary: #3498db;
+            --accent: #e74c3c;
+            --light: #ecf0f1;
+            --dark: #34495e;
+        }
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        body {
+            background: linear-gradient(135deg, #1a2980, #26d0ce);
+            color: #333;
+            line-height: 1.6;
+            padding: 20px;
+            min-height: 100vh;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        header {
+            text-align: center;
+            padding: 20px 0;
+            color: white;
+            margin-bottom: 30px;
+            position: relative;
+        }
+        .language-switcher {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+        }
+        .language-btn {
+            background: rgba(255,255,255,0.2);
+            border: none;
+            color: white;
+            padding: 8px 15px;
+            border-radius: 20px;
+            cursor: pointer;
+            margin: 0 5px;
+            font-weight: bold;
+            transition: all 0.3s;
+        }
+        .language-btn:hover {
+            background: rgba(255,255,255,0.4);
+        }
+        .language-btn.active {
+            background: white;
+            color: var(--primary);
+        }
+        h1 {
+            font-size: 2.5rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        .card {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            padding: 25px;
+            margin-bottom: 30px;
+            transition: transform 0.3s ease;
+        }
+        .card:hover {
+            transform: translateY(-5px);
+        }
+        .grid-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 25px;
+        }
+        @media (max-width: 768px) {
+            .grid-container {
+                grid-template-columns: 1fr;
+            }
+        }
+        h2 {
+            color: var(--primary);
+            border-bottom: 2px solid var(--secondary);
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+            font-size: 1.8rem;
+        }
+        .input-group {
+            margin-bottom: 20px;
+        }
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: var(--dark);
+        }
+        input, select {
+            width: 100%;
+            padding: 14px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: border 0.3s;
+        }
+        input:focus, select:focus {
+            border-color: var(--secondary);
+            outline: none;
+            box-shadow: 0 0 8px rgba(52, 152, 219, 0.5);
+        }
+        button {
+            background: linear-gradient(to right, #3498db, #2c3e50);
+            color: white;
+            border: none;
+            padding: 15px 25px;
+            font-size: 18px;
+            border-radius: 8px;
+            cursor: pointer;
+            width: 100%;
+            font-weight: 600;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+        button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.25);
+        }
+        .result-section {
+            background: linear-gradient(135deg, #1a2980, #26d0ce);
+            color: white;
+            border-radius: 15px;
+        }
+        .result-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 15px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.2);
+        }
+        .result-item:last-child {
+            border-bottom: none;
+        }
+        .highlight {
+            background-color: rgba(0,0,0,0.2);
+            font-weight: 700;
+            font-size: 1.2rem;
+            border-radius: 8px;
+            padding: 15px;
+        }
+        .disclaimer {
+            background-color: #f8d7da;
+            color: #721c24;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 20px;
+            font-size: 0.9rem;
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="language-switcher">
+                <button class="language-btn active" onclick="changeLanguage('hi')">हिंदी</button>
+                <button class="language-btn" onclick="changeLanguage('en')">English</button>
+            </div>
+            <h1 lang="hi">7वां वेतन आयोग कैलकुलेटर</h1>
+            <h1 lang="en" style="display:none">7th CPC Calculator</h1>
+            <p lang="hi">केंद्र सरकार के कर्मचारियों के लिए सटीक वेतन गणना</p>
+            <p lang="en" style="display:none">Accurate salary calculation for central government employees</p>
+        </header>
+
+        <div class="grid-container">
+            <div class="card">
+                <h2 lang="hi"><i class="fas fa-edit"></i> वेतन विवरण दर्ज करें</h2>
+                <h2 lang="en" style="display:none"><i class="fas fa-edit"></i> Enter Salary Details</h2>
+                <div class="input-group">
+                    <label for="basicPay" lang="hi">मूल वेतन (6वें CPC के अनुसार):</label>
+                    <label for="basicPay" lang="en" style="display:none">Basic Pay (as per 6th CPC):</label>
+                    <input type="number" id="basicPay" placeholder="उदा. 35000 / e.g. 35000">
+                </div>
+                
+                <div class="input-group">
+                    <label for="gradePay" lang="hi">ग्रेड पे:</label>
+                    <label for="gradePay" lang="en" style="display:none">Grade Pay:</label>
+                    <select id="gradePay">
+                        <option value="1800">1800</option>
+                        <option value="1900">1900</option>
+                        <option value="2000">2000</option>
+                        <option value="2400">2400</option>
+                        <option value="2800">2800</option>
+                        <option value="4200">4200</option>
+                        <option value="4600">4600</option>
+                        <option value="4800">4800</option>
+                        <option value="5400">5400</option>
+                    </select>
+                </div>
+                
+                <div class="input-group">
+                    <label for="cityClass" lang="hi">शहर का वर्गीकरण (HRA के लिए):</label>
+                    <label for="cityClass" lang="en" style="display:none">City Classification (for HRA):</label>
+                    <select id="cityClass">
+                        <option value="X" lang="hi">X वर्ग (50 लाख+ जनसंख्या)</option>
+                        <option value="X" lang="en" style="display:none">X Class (50 lakh+ population)</option>
+                        <option value="Y" lang="hi">Y वर्ग (5-50 लाख जनसंख्या)</option>
+                        <option value="Y" lang="en" style="display:none">Y Class (5-50 lakh population)</option>
+                        <option value="Z" lang="hi">Z वर्ग (5 लाख से कम जनसंख्या)</option>
+                        <option value="Z" lang="en" style="display:none">Z Class (Less than 5 lakh population)</option>
+                    </select>
+                </div>
+                
+                <div class="input-group">
+                    <label for="transportCity" lang="hi">परिवहन भत्ता (TPTA) शहर:</label>
+                    <label for="transportCity" lang="en" style="display:none">Transport Allowance (TPTA) City:</label>
+                    <select id="transportCity">
+                        <option value="high" lang="hi">उच्च TPTA शहर (हैदराबाद, दिल्ली, मुंबई, आदि)</option>
+                        <option value="high" lang="en" style="display:none">High TPTA City (Hyderabad, Delhi, Mumbai, etc.)</option>
+                        <option value="other" lang="hi">अन्य सभी शहर</option>
+                        <option value="other" lang="en" style="display:none">All Other Cities</option>
+                    </select>
+                </div>
+                
+                <div class="input-group">
+                    <label for="daRate" lang="hi">महंगाई भत्ता (DA) दर (%):</label>
+                    <label for="daRate" lang="en" style="display:none">Dearness Allowance (DA) Rate (%):</label>
+                    <input type="number" id="daRate" value="53" placeholder="वर्तमान DA दर / Current DA rate">
+                </div>
+                
+                <button onclick="calculateSalary()" lang="hi">
+                    <i class="fas fa-calculator"></i> वेतन की गणना करें
+                </button>
+                <button onclick="calculateSalary()" lang="en" style="display:none">
+                    <i class="fas fa-calculator"></i> Calculate Salary
+                </button>
+                
+                <div class="disclaimer" lang="hi">
+                    <p><strong>अस्वीकरण:</strong> यह केंद्रीय वेतन आयोग या किसी सरकारी संगठन का आधिकारिक ऐप नहीं है। सटीकता के लिए हमेशा आधिकारिक स्रोतों से जांचें।</p>
+                </div>
+                <div class="disclaimer" lang="en" style="display:none">
+                    <p><strong>Disclaimer:</strong> This is not an official app of the Central Pay Commission or any government organization. Always verify with official sources for accuracy.</p>
+                </div>
+            </div>
+            
+            <div class="card result-section">
+                <h2 lang="hi"><i class="fas fa-file-invoice-dollar"></i> वेतन गणना परिणाम</h2>
+                <h2 lang="en" style="display:none"><i class="fas fa-file-invoice-dollar"></i> Salary Calculation Results</h2>
+                <div id="results">
+                    <div class="result-item">
+                        <span lang="hi">नया मूल वेतन (7वें CPC के अनुसार):</span>
+                        <span lang="en" style="display:none">New Basic Pay (as per 7th CPC):</span>
+                        <span id="newBasicPay">₹0.00</span>
+                    </div>
+                    <div class="result-item">
+                        <span lang="hi">महंगाई भत्ता (DA @53%):</span>
+                        <span lang="en" style="display:none">Dearness Allowance (DA @53%):</span>
+                        <span id="daAmount">₹0.00</span>
+                    </div>
+                    <div class="result-item">
+                        <span lang="hi">मकान किराया भत्ता (HRA):</span>
+                        <span lang="en" style="display:none">House Rent Allowance (HRA):</span>
+                        <span id="hraAmount">₹0.00</span>
+                    </div>
+                    <div class="result-item">
+                        <span lang="hi">परिवहन भत्ता (TPTA):</span>
+                        <span lang="en" style="display:none">Transport Allowance (TPTA):</span>
+                        <span id="taAmount">₹0.00</span>
+                    </div>
+                    <div class="result-item highlight">
+                        <span lang="hi">कुल सकल वेतन:</span>
+                        <span lang="en" style="display:none">Total Gross Salary:</span>
+                        <span id="grossSalary">₹0.00</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // भाषा बदलने का फंक्शन
+        function changeLanguage(lang) {
+            // सभी भाषा वाले एलिमेंट्स को छुपाएं
+            document.querySelectorAll('[lang]').forEach(el => {
+                el.style.display = 'none';
+            });
+            
+            // चुनी गई भाषा वाले एलिमेंट्स को दिखाएं
+            document.querySelectorAll(`[lang="${lang}"]`).forEach(el => {
+                el.style.display = '';
+            });
+            
+            // भाषा बटन एक्टिव करें
+            document.querySelectorAll('.language-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+            
+            // गणना को फिर से चलाएं ताकि परिणाम भी नई भाषा में दिखें
+            calculateSalary();
+        }
+        
+        // वेतन गणना फंक्शन
+        function calculateSalary() {
+            // इनपुट मान प्राप्त करें
+            const basicPay = parseFloat(document.getElementById('basicPay').value) || 0;
+            const gradePay = parseFloat(document.getElementById('gradePay').value) || 0;
+            const cityClass = document.getElementById('cityClass').value;
+            const transportCity = document.getElementById('transportCity').value;
+            const daRate = parseFloat(document.getElementById('daRate').value) || 0;
+            
+            // नया मूल वेतन गणना (फिटमेंट फैक्टर 2.57)
+            const newBasicPay = Math.round((basicPay + gradePay) * 2.57);
+            
+            // DA गणना
+            const daAmount = Math.round(newBasicPay * (daRate / 100));
+            
+            // HRA गणना
+            let hraPercent = 0;
+            if(cityClass === 'X') hraPercent = 0.30;
+            else if(cityClass === 'Y') hraPercent = 0.20;
+            else hraPercent = 0.10;
+            
+            const hraAmount = Math.round(newBasicPay * hraPercent);
+            
+            // परिवहन भत्ता (TPTA) गणना
+            const payLevel = calculatePayLevel(gradePay);
+            let taAmount = 0;
+            
+            if(payLevel >= 9) {
+                taAmount = (transportCity === 'high') ? 7200 : 3600;
+            } else if(payLevel >= 3 && payLevel <= 8) {
+                taAmount = (transportCity === 'high') ? 3600 : 1800;
+            } else {
+                taAmount = (transportCity === 'high') ? 1350 : 900;
+            }
+            
+            // कुल सकल वेतन
+            const grossSalary = newBasicPay + daAmount + hraAmount + taAmount;
+            
+            // परिणाम प्रदर्शित करें
+            document.getElementById('newBasicPay').textContent = '₹' + newBasicPay.toLocaleString('en-IN');
+            document.getElementById('daAmount').textContent = '₹' + daAmount.toLocaleString('en-IN') + ` (@${daRate}%)`;
+            document.getElementById('hraAmount').textContent = '₹' + hraAmount.toLocaleString('en-IN') + ` (${hraPercent*100}%)`;
+            document.getElementById('taAmount').textContent = '₹' + taAmount.toLocaleString('en-IN');
+            document.getElementById('grossSalary').textContent = '₹' + grossSalary.toLocaleString('en-IN');
+        }
+        
+        // ग्रेड पे से पे लेवल निकालने का फंक्शन
+        function calculatePayLevel(gradePay) {
+            if(gradePay === 1800) return 1;
+            if(gradePay === 1900) return 2;
+            if(gradePay === 2000) return 3;
+            if(gradePay === 2400) return 4;
+            if(gradePay === 2800) return 5;
+            if(gradePay === 4200) return 6;
+            if(gradePay === 4600) return 7;
+            if(gradePay === 4800) return 8;
+            if(gradePay === 5400) return 9;
+            return 5; // डिफॉल्ट
+        }
+        
+        // पेज लोड होने पर डिफॉल्ट गणना करें
+        window.onload = function() {
+            calculateSalary();
+        }
+    </script>
+</body>
+</html>
