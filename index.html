@@ -372,3 +372,51 @@
     </script>
 </body>
 </html>
+/* मोबाइल डिवाइस के लिए सही स्टाइल */
+@media only screen and (max-width: 768px) {
+  .language-switcher {
+    position: static; /* हेडर के अंदर ही रहेगा */
+    text-align: center;
+    margin: 10px 0;
+    top: auto;
+    right: auto;
+  }
+  
+  header {
+    padding-bottom: 40px; /* हेडर के लिए जगह बढ़ाएं */
+    position: relative;
+  }
+  
+  .language-btn {
+    display: inline-block;
+    margin: 5px;
+    padding: 6px 12px;
+    font-size: 14px;
+  }
+}
+<header>
+  <h1><i class="fas fa-calculator"></i> 7वां वेतन आयोग कैलकुलेटर</h1>
+  <p>केंद्र सरकार के कर्मचारियों के लिए सटीक वेतन गणना</p>
+  
+  <div class="language-switcher">
+    <button class="language-btn active" onclick="changeLanguage('hi')">हिंदी</button>
+    <button class="language-btn" onclick="changeLanguage('en')">English</button>
+  </div>
+</header>
+function changeLanguage(lang) {
+  // सभी भाषा वाले एलिमेंट्स को छुपाएं
+  document.querySelectorAll('[lang]').forEach(el => {
+    el.style.display = 'none';
+  });
+  
+  // चुनी गई भाषा वाले एलिमेंट्स दिखाएं
+  document.querySelectorAll(`[lang="${lang}"]`).forEach(el => {
+    el.style.display = '';
+  });
+  
+  // बटन एक्टिव/इनएक्टिव करें
+  document.querySelectorAll('.language-btn').forEach(btn => {
+    btn.classList.remove('active');
+  });
+  event.target.classList.add('active');
+}
